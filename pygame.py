@@ -19,6 +19,11 @@ Transcriptionsucces = tk.StringVar()
 Transcriptionsucces.set("False")
 Photranscriptionsucces = tk.StringVar()
 Photranscriptionsucces.set("False")
+Wtranscription= tk.StringVar()
+Wtranscription.set("")
+Wptranscription= tk.StringVar()
+Wptranscription.set("")
+
 
 # Create a function to play audio
 def play_audio(): # make this later
@@ -71,11 +76,12 @@ def transcription():
     # Open the audio file
     with sr.AudioFile("recording.wav") as source:
         audio = r.record(source)  # Record the audio file
-
+        Wtranscription.set(r.recognize_google(audio)) #sets the transcription to a variable for the interface
     # Transcribe the audio
     try:
         transcription = r.recognize_google(audio)
         print("You said: " + transcription)  # Print the transcribed audio
+
         # Compare the transcription to the passphrase
         if PASSPHRASE.lower() in transcription.lower():
             print("The transcription contains the passphrase.")
@@ -97,6 +103,9 @@ def Photranscription():
         # Use the already initialized model
         output = model.recognize(audio_file, "ipa")
         print(output)
+        Wptranscription.set(output) #sets the transcription to a variable for the interface
+
+        # Compare the transcription to the passphrase
         if any(phrase in output for phrase in PHOPASSPHRASES):
             print("The transcription contains the passphrase PHONETICALLY.")
             Photranscriptionsucces.set("True") #used to display the game state outside of terminal
@@ -105,12 +114,12 @@ def Photranscription():
             Photranscriptionsucces.set("False") #used to display the game state outside of terminal
     except Exception as e:
         print(f"An error occurred during phonetic transcription: {e}")
-# combine them to run them at the same time (debuggin tool for now)
+# combine them to run them at the same time (debuggin tool for now will be removed later) used mainly for testing phonetic vs english passphrases
 def transcribe_both():
     transcription()
     Photranscription()
 
-#tk interface for user input hopefully (needs more learning)
+#tk interface for user input hopefully (needs more learning) (probs use it as a debug tool later for now its the main window)
 label = tk.Label(text="Hello please speak the passphrase")
 label.pack()
 button = tk.Button(
@@ -128,15 +137,26 @@ button = tk.Button(
     height=5,
     bg="white",
     fg="black",
-    command=transcribe_both
+    command=transcribe_both # cant have two functions in one button so i made a new one that combines the two
 )
 button.pack()
-
+label0 = tk.Label(window, text="Transcription success:")
+label0.pack()
 label1 = tk.Label(window, textvariable=Transcriptionsucces)
 label1.pack()
-label2 = tk.Label(window, textvariable=Photranscriptionsucces)
+label2 = tk.Label(text="transcription:")
 label2.pack()
+label3 = tk.Label(window, textvariable=Wtranscription)
+label3.pack()
 
+label4 = tk.Label(text="Phonetic transcription success:")
+label4.pack()
+label5 = tk.Label(window, textvariable=Photranscriptionsucces)
+label5.pack()
+label6 = tk.Label(text="Phonetic transcription:")
+label6.pack()
+label7 = tk.Label(window, textvariable=Wptranscription)
+label7.pack()
 window.mainloop()
 
 
