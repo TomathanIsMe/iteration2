@@ -149,3 +149,12 @@ transcription()
 input("Press enter to transcribe the audio using Allosaurus")
 Photranscription()
 '''
+
+
+#things still to do:
+# - make the interface look better
+# - explore passphrase options (phonetic and normal)
+# - out of game mechanics / deliverables
+# - create audio file as initial speech
+# - create game mechanics like failure system etc
+# - create game assets like art
