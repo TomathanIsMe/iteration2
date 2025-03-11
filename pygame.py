@@ -26,7 +26,21 @@ Wptranscription.set("")
 
 
 # Create a function to play audio
-def play_audio(): # make this later
+def play_audio():
+    chunk = 1024
+    wf = wave.open("introduction.wav", 'rb')
+
+    audio = pyaudio.PyAudio()
+    stream = audio.open(format=audio.get_format_from_width(wf.getsampwidth()),
+                        channels=wf.getnchannels(),
+                        rate=wf.getframerate(),
+                        output=True)
+    data = wf.readframes(chunk)
+    while data != b'':
+        stream.write(data)
+        data = wf.readframes(chunk)
+    stream.close()
+    audio.terminate()
     return
 # Create a function to record audio
 def record_audio():
@@ -123,6 +137,16 @@ def transcribe_both():
 label = tk.Label(text="Hello please speak the passphrase")
 label.pack()
 button = tk.Button(
+    text="play introduction",
+    width=25,
+    height=5,
+    bg="white",
+    fg="black",
+    command=play_audio
+)
+button.pack()
+
+button = tk.Button(
     text="Record!",
     width=25,
     height=5,
@@ -131,15 +155,17 @@ button = tk.Button(
     command=record_audio
 )
 button.pack()
+
 button = tk.Button(
     text="transcribe!",
     width=25,
     height=5,
     bg="white",
     fg="black",
-    command=transcribe_both # cant have two functions in one button so i made a new one that combines the two
-)
+    command=transcribe_both
+    ) # cant have two functions in one button so i made a new one that combines the two
 button.pack()
+
 label0 = tk.Label(window, text="Transcription success:")
 label0.pack()
 label1 = tk.Label(window, textvariable=Transcriptionsucces)
