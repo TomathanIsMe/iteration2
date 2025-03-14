@@ -2,26 +2,11 @@ import speech_recognition as sr
 import tkinter as tk
 from pathlib import Path
 from allosaurus.app import read_recognizer
+from variables import Wptranscription, Wtranscription, Transcriptionsucces, Photranscriptionsucces, PASSPHRASE, PHOPASSPHRASES
 
 # Initialize the Allosaurus model and Tkinter window (so i can set the variables before they are used)
 model = read_recognizer('latest')
 window = tk.Tk()
-
-# Set the passphrase
-# Define the passphrase
-PASSPHRASE = "test"
-PHOPASSPHRASES = ["t̪ʰ e t͡ʃ","t æ s̪","t ɛ s t"] #needs a real passphrase and their phonetic simularities
-
-# Set the transcription variable
-Transcriptionsucces = tk.StringVar()
-Transcriptionsucces.set("False")
-Photranscriptionsucces = tk.StringVar()
-Photranscriptionsucces.set("False")
-Wtranscription= tk.StringVar()
-Wtranscription.set("")
-Wptranscription= tk.StringVar()
-Wptranscription.set("")
-
 
 def transcription():
     # Define the recognizer

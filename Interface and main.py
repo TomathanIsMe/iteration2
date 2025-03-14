@@ -67,19 +67,17 @@ input("Press enter to transcribe the audio")
 transcription()
 input("Press enter to transcribe the audio using Allosaurus")
 Photranscription()
-'''
+
 
 
 #things still to do:
-# - make the interface look better
-# - explore passphrase options (phonetic and normal)
-# - out of game mechanics / deliverables
-# - create audio file as initial speech
-# - create game mechanics like failure system etc
-# - create game assets like art
+make the interface look better
+explore passphrase options (phonetic and normal)
+out of game mechanics / deliverables
+create audio file as initial speech
+create game mechanics like failure system etc
+create game assets like art
 
-# - research docker... for open ai's whisper, kijk naar raymonds bericht
-# - information hiding
+research docker... for open ai's whisper, kijk naar raymonds bericht
 
-# - set a function for the UI and seperate the functions into their own files.
-
+'''
