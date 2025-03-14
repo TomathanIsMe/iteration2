@@ -3,6 +3,7 @@ import tkinter as tk
 from pathlib import Path
 from allosaurus.app import read_recognizer
 from variables import Wptranscription, Wtranscription, Transcriptionsucces, Photranscriptionsucces, PASSPHRASE, PHOPASSPHRASES
+from gamestages import GAMESTATE, GOBLINEMOTIONALSTATE
 
 # Initialize the Allosaurus model and Tkinter window (so i can set the variables before they are used)
 model = read_recognizer('latest')
@@ -10,8 +11,8 @@ window = tk.Tk()
 
 def transcription():
     # Define the recognizer
+    
     r = sr.Recognizer()
-
     # Open the audio file
     with sr.AudioFile("recording.wav") as source:
         audio = r.record(source)  # Record the audio file
@@ -36,6 +37,7 @@ def transcription():
     return
 # phonetic transcription using allosaurus
 def Photranscription():
+    global GOBLINEMOTIONALSTATE
     try:
         # Path to the audio file (didnt know how to fix it otherwise so just import more lmao)
         audio_file = Path("C:/Users/tomcr/Documents/projects/iteration2/recording.wav")
@@ -48,11 +50,14 @@ def Photranscription():
         if any(phrase in output for phrase in PHOPASSPHRASES):
             print("The transcription contains the passphrase PHONETICALLY.")
             Photranscriptionsucces.set("True") #used to display the game state outside of terminal
+            GOBLINEMOTIONALSTATE = "happy"
         else:
             print("The transcription does not contain the passphrase.")
             Photranscriptionsucces.set("False") #used to display the game state outside of terminal
+            GOBLINEMOTIONALSTATE = "angry"
     except Exception as e:
         print(f"An error occurred during phonetic transcription: {e}")
+    GOBLINEMOTIONALSTATE = "confused"
 # combine them to run them at the same time (debuggin tool for now will be removed later) used mainly for testing phonetic vs english passphrases
 def transcribe_both():
     transcription()

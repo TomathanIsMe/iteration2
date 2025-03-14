@@ -14,3 +14,9 @@ Wtranscription= tk.StringVar()
 Wtranscription.set("")
 Wptranscription= tk.StringVar()
 Wptranscription.set("")
+
+# Set the transcription variables for the game for usage outside of the tkinter interface
+ENGLISHTRANSCRIPTIONSUCCES = Transcriptionsucces
+PHONETICTRANSCRIPTIONSUCCES = Photranscriptionsucces
+ENGLISHTRANSCRIPTION = Wtranscription
+PHONETICTRANSCRIPTION = Wptranscription
