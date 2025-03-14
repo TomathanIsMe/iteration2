@@ -5,6 +5,19 @@ from transcription import transcription, Photranscription, transcribe_both, Wptr
 
 
 window = tk.Tk()
+def setgamestateintroduction():
+    global GAMESTATE
+    GAMESTATE = "introduction"
+    return
+def setgamestaterecording():
+    global GAMESTATE
+    GAMESTATE = "recording"
+    return
+def setgamestatetranscribe():
+    global GAMESTATE
+    GAMESTATE = "transcribing"
+
+
 
 def interface():
     label = tk.Label(text="Hello please speak the passphrase")
@@ -15,7 +28,7 @@ def interface():
         height=5,
         bg="white",
         fg="black",
-        command=play_audio
+        command=setgamestateintroduction
     )
     button.pack()
 
@@ -25,7 +38,7 @@ def interface():
         height=5,
         bg="white",
         fg="black",
-        command=record_audio
+        command=setgamestaterecording
     )
     button.pack()
 
@@ -35,7 +48,7 @@ def interface():
         height=5,
         bg="white",
         fg="black",
-        command=transcribe_both
+        command=setgamestatetranscribe
     ) # cant have two functions in one button for some fuckin reason, so i made a new one that combines the two
     button.pack()
 

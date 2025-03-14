@@ -1,6 +1,7 @@
 import pyaudio
 import wave
-from gamestages import GAMESTATE, GOBLINEMOTIONALSTATE
+from gamestages import GAMESTATE
+from variables import GOBLINEMOTIONALSTATE
 
 def play_audio():
     global GOBLINEMOTIONALSTATE

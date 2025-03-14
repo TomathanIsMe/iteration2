@@ -20,3 +20,6 @@ ENGLISHTRANSCRIPTIONSUCCES = Transcriptionsucces
 PHONETICTRANSCRIPTIONSUCCES = Photranscriptionsucces
 ENGLISHTRANSCRIPTION = Wtranscription
 PHONETICTRANSCRIPTION = Wptranscription
+
+# goblin state variable
+GOBLINEMOTIONALSTATE = "NEUTRAL"

@@ -3,7 +3,8 @@ import tkinter as tk
 from pathlib import Path
 from allosaurus.app import read_recognizer
 from variables import Wptranscription, Wtranscription, Transcriptionsucces, Photranscriptionsucces, PASSPHRASE, PHOPASSPHRASES
-from gamestages import GAMESTATE, GOBLINEMOTIONALSTATE
+from gamestages import GAMESTATE
+from variables import GOBLINEMOTIONALSTATE
 
 # Initialize the Allosaurus model and Tkinter window (so i can set the variables before they are used)
 model = read_recognizer('latest')
