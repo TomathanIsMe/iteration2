@@ -6,20 +6,22 @@ PASSPHRASE = "test"
 PHOPASSPHRASES = ["t̪ʰ e t͡ʃ","t æ s̪","t ɛ s t"] #needs a real passphrase and their phonetic simularities
 
 # Set the transcription variable for the hud
-Transcriptionsucces = tk.StringVar()
-Transcriptionsucces.set("False")
+ENGtranscriptionsucces = tk.StringVar()
+ENGtranscriptionsucces.set("False")
 Photranscriptionsucces = tk.StringVar()
 Photranscriptionsucces.set("False")
-Wtranscription= tk.StringVar()
-Wtranscription.set("")
-Wptranscription= tk.StringVar()
-Wptranscription.set("")
+wENGtranscription= tk.StringVar()
+wENGtranscription.set("")
+wPHOtranscription= tk.StringVar()
+wPHOtranscription.set("")
 
 # Set the transcription variables for the game for usage outside of the tkinter interface
-ENGLISHTRANSCRIPTIONSUCCES = Transcriptionsucces
+ENGLISHTRANSCRIPTIONSUCCES = ENGtranscriptionsucces
 PHONETICTRANSCRIPTIONSUCCES = Photranscriptionsucces
-ENGLISHTRANSCRIPTION = Wtranscription
-PHONETICTRANSCRIPTION = Wptranscription
+ENGLISHTRANSCRIPTION = wENGtranscription
+PHONETICTRANSCRIPTION = wPHOtranscription
 
 # goblin state variable
-GOBLINEMOTIONALSTATE = "NEUTRAL"
+GOBLINSTATE = "NEUTRAL"
+
+GAMESTATE = ""  # Set the game state to blank

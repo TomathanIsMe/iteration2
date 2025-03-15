@@ -1,19 +1,19 @@
 from Interface import interface
-from transcription import transcription, Photranscription, transcribe_both
-from audioRNP import record_audio, play_audio
-from variables import ENGLISHTRANSCRIPTION,ENGLISHTRANSCRIPTIONSUCCES,PHONETICTRANSCRIPTION,PHONETICTRANSCRIPTIONSUCCES
+from variables import GAMESTATE
 
-GAMESTATE = ""  # Set the game state to blank
 
 # Run the interface
 interface()
 
 # States for character changes
 if GAMESTATE == "introduction":
+    from audioRNP import play_audio
     play_audio()
 
 if GAMESTATE == "recording":
+    from audioRNP import record_audio
     record_audio()
 
 if GAMESTATE == "transcribing":
+    from transcription import transcribe_both
     transcribe_both()

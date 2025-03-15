@@ -1,11 +1,11 @@
 import pyaudio
 import wave
-from gamestages import GAMESTATE
-from variables import GOBLINEMOTIONALSTATE
+
+from variables import GOBLINSTATE
 
 def play_audio():
-    global GOBLINEMOTIONALSTATE
-    GOBLINEMOTIONALSTATE = "Speaking"
+    global GOBLINSTATE
+    GOBLINSTATE = "Speaking"
     chunk = 1024
     wf = wave.open("introduction.wav", 'rb')
 
@@ -20,13 +20,13 @@ def play_audio():
         data = wf.readframes(chunk)
     stream.close()
     audio.terminate()
-    GOBLINEMOTIONALSTATE = "Neutral"
+    GOBLINSTATE = "Neutral"
     return
 
 # Create a function to record audio
 def record_audio():
-    global GOBLINEMOTIONALSTATE
-    GOBLINEMOTIONALSTATE = "Listening"
+    global GOBLINSTATE
+    GOBLINSTATE = "Listening"
     # Define audio parameters as variables (its needed for pyaudio to function)
     CHANNELS = 1
     RATE = 44100
@@ -63,5 +63,5 @@ def record_audio():
     waveFile.setframerate(RATE)
     waveFile.writeframes(b''.join(frames))
     waveFile.close()
-    GOBLINEMOTIONALSTATE = "Neutral"
+    GOBLINSTATE = "Neutral"
     return

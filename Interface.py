@@ -1,27 +1,30 @@
 import tkinter as tk
-from pathlib import Path
-from audioRNP import play_audio, record_audio
-from transcription import transcription, Photranscription, transcribe_both, Wptranscription, Wtranscription, Transcriptionsucces, Photranscriptionsucces
 
-
+# Initialize the Tkinter window
 window = tk.Tk()
+
 def setgamestateintroduction():
     global GAMESTATE
     GAMESTATE = "introduction"
     return
+
 def setgamestaterecording():
     global GAMESTATE
     GAMESTATE = "recording"
     return
+
 def setgamestatetranscribe():
     global GAMESTATE
     GAMESTATE = "transcribing"
-
-
+    return
 
 def interface():
+    # Imports when the function is called (avoid circular imports)
+    from variables import wPHOtranscription, wENGtranscription, ENGtranscriptionsucces, Photranscriptionsucces
+
     label = tk.Label(text="Hello please speak the passphrase")
     label.pack()
+
     button = tk.Button(
         text="play introduction",
         width=25,
@@ -54,11 +57,11 @@ def interface():
 
     label0 = tk.Label(window, text="Transcription success:")
     label0.pack()
-    label1 = tk.Label(window, textvariable=Transcriptionsucces)
+    label1 = tk.Label(window, textvariable=ENGtranscriptionsucces)
     label1.pack()
     label2 = tk.Label(text="transcription:")
     label2.pack()
-    label3 = tk.Label(window, textvariable=Wtranscription)
+    label3 = tk.Label(window, textvariable=wENGtranscription)
     label3.pack()
 
     label4 = tk.Label(text="Phonetic transcription success:")
@@ -67,12 +70,12 @@ def interface():
     label5.pack()
     label6 = tk.Label(text="Phonetic transcription:")
     label6.pack()
-    label7 = tk.Label(window, textvariable=Wptranscription)
+    label7 = tk.Label(window, textvariable=wPHOtranscription)
     label7.pack()
+
     window.mainloop()
 
-    
-#User input prompting (basically here temporarily untill i have an interface or better idea)
+# User input prompting (basically here temporarily until I have an interface or better idea)
 '''
 input("Press enter to start recording")
 record_audio()
@@ -80,17 +83,13 @@ input("Press enter to transcribe the audio")
 transcription()
 input("Press enter to transcribe the audio using Allosaurus")
 Photranscription()
-
-
-
-#things still to do:
-make the interface look better
-explore passphrase options (phonetic and normal)
-out of game mechanics / deliverables
-create audio file as initial speech
-create game mechanics like failure system etc
-create game assets like art
-
-research docker... for open ai's whisper, kijk naar raymonds bericht
-
 '''
+
+# Things still to do:
+# - Make the interface look better
+# - Explore passphrase options (phonetic and normal)
+# - Out of game mechanics / deliverables
+# - Create audio file as initial speech
+# - Create game mechanics like failure system etc
+# - Create game assets like art
+# - Research Docker... for OpenAI's Whisper, kijk naar Raymond's bericht
