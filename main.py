@@ -24,9 +24,16 @@ Wtranscription.set("")
 Wptranscription= tk.StringVar()
 Wptranscription.set("")
 
+#Game and goblin state variables
+goblinstate = "idle"
+
+
+
+
 
 # Create a function to play audio
 def play_audio():
+    goblinstate = "speaking"
     chunk = 1024
     wf = wave.open("introduction.wav", 'rb')
 
@@ -41,9 +48,11 @@ def play_audio():
         data = wf.readframes(chunk)
     stream.close()
     audio.terminate()
+    goblinstate = "idle"
     return
 # Create a function to record audio
 def record_audio():
+    goblinstate = "listening"
     # Define audio parameters as variables (its needed for pyaudio to function)
     CHANNELS = 1
     RATE = 44100
@@ -80,8 +89,8 @@ def record_audio():
     waveFile.setframerate(RATE)
     waveFile.writeframes(b''.join(frames))
     waveFile.close()
+    goblinstate = "idle"
     return
-
 # Create a function to convert the audio to text                        Remove when done debuggin, is not needed allosaurus is superior
 def transcription():
     # Define the recognizer
@@ -133,57 +142,96 @@ def transcribe_both():
     transcription()
     Photranscription()
 
-#tk interface for user input hopefully (needs more learning) (probs use it as a debug tool later for now its the main window)
-label = tk.Label(text="Hello please speak the passphrase")
-label.pack()
-button = tk.Button(
-    text="play introduction",
-    width=25,
-    height=5,
-    bg="white",
-    fg="black",
-    command=play_audio
-)
-button.pack()
+def interfaceboot():
+    #tk interface for user input hopefully (needs more learning) (probs use it as a debug tool later for now its the main window)
+    label = tk.Label(text="Hello please speak the passphrase")
+    label.pack()
+    button = tk.Button(
+        text="play introduction",
+        width=25,
+        height=5,
+        bg="white",
+        fg="black",
+        command=play_audio
+    )
+    button.pack()
 
-button = tk.Button(
-    text="Record!",
-    width=25,
-    height=5,
-    bg="white",
-    fg="black",
-    command=record_audio
-)
-button.pack()
+    button = tk.Button(
+        text="Record!",
+        width=25,
+        height=5,
+        bg="white",
+        fg="black",
+        command=record_audio
+    )
+    button.pack()
 
-button = tk.Button(
-    text="transcribe!",
-    width=25,
-    height=5,
-    bg="white",
-    fg="black",
-    command=transcribe_both
-    ) # cant have two functions in one button so i made a new one that combines the two
-button.pack()
+    button = tk.Button(
+        text="transcribe!",
+        width=25,
+        height=5,
+        bg="white",
+        fg="black",
+        command=transcribe_both
+        ) # cant have two functions in one button so i made a new one that combines the two
+    button.pack()
 
-label0 = tk.Label(window, text="Transcription success:")
-label0.pack()
-label1 = tk.Label(window, textvariable=Transcriptionsucces)
-label1.pack()
-label2 = tk.Label(text="transcription:")
-label2.pack()
-label3 = tk.Label(window, textvariable=Wtranscription)
-label3.pack()
+    label0 = tk.Label(window, text="Transcription success:")
+    label0.pack()
+    label1 = tk.Label(window, textvariable=Transcriptionsucces)
+    label1.pack()
+    label2 = tk.Label(text="transcription:")
+    label2.pack()
+    label3 = tk.Label(window, textvariable=Wtranscription)
+    label3.pack()
 
-label4 = tk.Label(text="Phonetic transcription success:")
-label4.pack()
-label5 = tk.Label(window, textvariable=Photranscriptionsucces)
-label5.pack()
-label6 = tk.Label(text="Phonetic transcription:")
-label6.pack()
-label7 = tk.Label(window, textvariable=Wptranscription)
-label7.pack()
-window.mainloop()
+    label4 = tk.Label(text="Phonetic transcription success:")
+    label4.pack()
+    label5 = tk.Label(window, textvariable=Photranscriptionsucces)
+    label5.pack()
+    label6 = tk.Label(text="Phonetic transcription:")
+    label6.pack()
+    label7 = tk.Label(window, textvariable=Wptranscription)
+    label7.pack()
+    window.mainloop()
+
+'''
+def goblinstatemanager()
+    if goblinstate == "idle":
+        #set animation to idle
+    elif goblinstate == "speaking":
+        #set animation to speaking
+    elif goblinstate == "listening":
+        #set animation to listening
+    elif
+'''
+
+interfaceboot()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #User input prompting (basically here temporarily untill i have an interface or better idea)
@@ -198,9 +246,7 @@ Photranscription()
 
 
 #things still to do:
-# - make the interface look better
 # - explore passphrase options (phonetic and normal)
 # - out of game mechanics / deliverables
-# - create audio file as initial speech
-# - create game mechanics like failure system etc
 # - create game assets like art
+# - work with classes
