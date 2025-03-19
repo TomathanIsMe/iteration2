@@ -6,7 +6,7 @@ from pathlib import Path
 from allosaurus.app import read_recognizer
 
 
-# Initialize the Allosaurus model and Tkinter window (so i can set the variables before they are used)
+# Initialize the Allosaurus model and Tkinter window
 model = read_recognizer('latest')
 window = tk.Tk()
 
@@ -144,14 +144,12 @@ class transcription:
     def transcribe_both(self):
         self.transcription()
         self.Photranscription()
-
-
-
+        return
 def interfaceboot():
     #tk interface for user input hopefully (needs more learning) (probs use it as a debug tool later for now its the main window)
     audiocall= Audio()
     transcribecall = transcription()
-    
+
     window.title("Goblin game")
     label = tk.Label(text="Hello please speak the passphrase")
     label.pack()
