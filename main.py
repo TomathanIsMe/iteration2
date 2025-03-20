@@ -15,7 +15,7 @@ window = tk.Tk()
 Transcriptionsucces = tk.StringVar()
 Transcriptionsucces.set("False")
 Photranscriptionsucces = tk.StringVar()
-Photranscriptionsucces.set("False")
+Photranscriptionsucces.set("Idle")
 Wtranscription= tk.StringVar()
 Wtranscription.set("")
 Wptranscription= tk.StringVar()
@@ -112,8 +112,11 @@ class Audio:
 class transcription:
     def __init__(self):
         self.PASSPHRASE = "folaki"
-        self.PHOPASSPHRASES = ["f o l a k i","f ɔ l ɑ k iʃ","f ɔ l̪ l a k i","f ɔ l a k i","f o uə l a k̟ʲ i","f ɔ ə l a k̟ʲ i,ts o ʁ lʲ a ɡ i","f a ʊ h l ɑ k ɪ","f ɔ l̪ l a k̟ʲ i",
-                               "f a ʊ l ɑ k i","f a l̪ h l ɑ k i","f ɔ l a k̟ʲ i","o l̪ lʲ a k̟ʲ i","f a h l ɑ k i","f a h l ɑ k i","f a l̪ lʲ a k̟ʲ i","f a l̪ l ɑ k i"]
+        self.PHOPASSPHRASES = ["f o l a k i", "f ɔ l ɑ k iʃ", "f ɔ l̪ l a k i", "f ɔ l a k i", "f o uə l a k̟ʲ i", "f ɔ ə l a k̟ʲ i", "f ɔ l̪ l a k̟ʲ i", 
+                               "f a ʊ l ɑ k i", "f a l̪ h l ɑ k i", "f ɔ l a k̟ʲ i", "o l̪ lʲ a k̟ʲ i", "f a h l ɑ k i", "f a l̪ lʲ a k̟ʲ i", "f a l̪ l ɑ k i", 
+                               "f ɔ ə l a ɡ i", "f ɔ h l a k̟ʲ i", "f ɔ l̪ l ɑ ɡ i", "f ɔ h l a k ɪ", "f ɔ lː a k̟ʲ i", "p ɔ l a k̟ʲ i", "p o l a k̟ʲ i", 
+                               "f ɔ l̪ a k i", "f ɔ l a k ɪ", "f ɔ l a k ʰ i", "f ɔ l a k ʲ i", "f ɔ l ɑː k i", "f ɔ l ɑ k ɪ"]
+
     # Create a function to convert the audio to text                        Remove when done debuggin, is not needed allosaurus is superior
     '''
     def transcription(self):
@@ -205,7 +208,7 @@ def interfaceboot():
     button.pack()
 
     button = tk.Button(
-        text="transcribe!",
+        text="Check the answer!!",
         width=25,
         height=5,
         bg="white",
@@ -223,14 +226,14 @@ def interfaceboot():
     label3 = tk.Label(window, textvariable=Wtranscription)
     label3.pack()
     '''
-    label4 = tk.Label(text="Phonetic transcription success:")
+    label4 = tk.Label(text="success:")
     label4.pack()
     label5 = tk.Label(window, textvariable=Photranscriptionsucces)
     label5.pack()
-    label6 = tk.Label(text="Phonetic transcription:")
-    label6.pack()
-    label7 = tk.Label(window, textvariable=Wptranscription)
-    label7.pack()
+    # label6 = tk.Label(text="Phonetic transcription:")
+    # label6.pack()
+    # label7 = tk.Label(window, textvariable=Wptranscription)
+    # label7.pack()
 
     window.mainloop()
 
@@ -286,7 +289,7 @@ Photranscription()
 '''
 
 
-#things still to do:
+# things still to do:
 # - explore passphrase options (phonetic and normal)
 # - out of game mechanics / deliverables
 # - create game assets like art and sound
