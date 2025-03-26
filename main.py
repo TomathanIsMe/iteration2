@@ -24,6 +24,9 @@ Wptranscription.set("")
 
 #move this to a class bro .....
 #goblin state variables and the tk shit to display it
+goblinstate = "idle"
+goblinidlevariant = 1
+
 idle1 = tk.PhotoImage(file="C:/Users/tomcr/Documents/projects/iteration2/idle1.png")
 idle2 = tk.PhotoImage(file="C:/Users/tomcr/Documents/projects/iteration2/idle2.png")
 idle3 = tk.PhotoImage(file="C:/Users/tomcr/Documents/projects/iteration2/idle3.png")
@@ -33,15 +36,15 @@ speaking1 = tk.PhotoImage(file="C:/Users/tomcr/Documents/projects/iteration2/spe
 speaking2 = tk.PhotoImage(file="C:/Users/tomcr/Documents/projects/iteration2/speaking2.png")
 listening1 = tk.PhotoImage(file="C:/Users/tomcr/Documents/projects/iteration2/listening1.png")
 
-goblinstate = "idle"
+
 spritechange = tk.Label(window, image=idle1)
 spritechange.pack()
-goblinidlevariant = 1
 
 
 
 
-class Audio:
+
+class Audio: # i could fix the entire program freezing but that would involve me copying it from ai directly without understanding wtf is going on so i elected to not do that.
     def __init__(self):
         self.chunk = 1024
         self.CHANNELS = 1
@@ -65,6 +68,7 @@ class Audio:
         stream.close()
         audio.terminate()
         return
+    
     def play_audio_riddle(self):
         global goblinstate
         goblinstate = "speaking"
@@ -84,7 +88,7 @@ class Audio:
         audio.terminate()
         
         #riddle play time
-        window.after(16000, lambda: setattr(goblinstate, "idle"))
+        goblinstate = "idle"
         return
 
     def record_audio(self):
@@ -129,7 +133,7 @@ class Audio:
         window.after(16000, lambda: setattr(goblinstate, "idle"))
         return
 
-class transcription:
+class Transcription:
     def __init__(self):
         self.PASSPHRASE = "folaki"
         self.PHOPASSPHRASES = ["f o l a k i", "f ɔ l ɑ k iʃ", "f ɔ l̪ l a k i", "f ɔ l a k i", "f o uə l a k̟ʲ i", "f ɔ ə l a k̟ʲ i", "f ɔ l̪ l a k̟ʲ i", 
@@ -190,33 +194,68 @@ class transcription:
         #self.transcription()
         self.Photranscription()
         return
-def spriteupdater():
-    #while True: #do i need this in here now that i update it everyonce in a while, i dont think so atleast removing it for now.
-    global goblinstate, goblinidlevariant
-    if goblinstate == "idle":
-        if goblinidlevariant % 2 == 0:
-            spritechange.config(image=idle1)
-            window.after(1000, lambda: spritechange.config(image=idle2))
-            window.after(2000, spriteupdater)
+
+class Spritemanager:
+    def __init__(self):
+        global goblinidlevariant, goblinstate
+    
+    def setgoblinstateidle(self):
+        global goblinidlevariant, goblinstate
+        if goblinstate == "idle":
+            if goblinidlevariant % 2 == 0:
+                spritechange.config(image=idle1)
+                window.after(1000, lambda: spritechange.config(image=idle2))
+                window.after(2000, self.setgoblinstateidle)
+            else:
+                spritechange.config(image=idle3)
+                window.after(1000, lambda: spritechange.config(image=idle4))
+                window.after(2000, lambda: spritechange.config(image=idle5))
+                window.after(2500, lambda: spritechange.config(image=idle4))
+                window.after(3500, self.setgoblinstateidle)
+            goblinidlevariant += 1
         else:
-            spritechange.config(image=idle3)
-            window.after(1000, lambda: spritechange.config(image=idle4))
-            window.after(2000, lambda: spritechange.config(image=idle5))
-            window.after(2500, lambda: spritechange.config(image=idle4))
-            window.after(3500, spriteupdater)
-        goblinidlevariant += 1
-    elif goblinstate == "speaking":
-        spritechange.config(image=speaking1)
-        window.after(1000, lambda: spritechange.config(image=speaking2))
-        window.after(2000, spriteupdater)
-    elif goblinstate == "listening":
-        spritechange.config(image=listening1)
-        window.after(1000, spriteupdater)
+            return
+    
+    def setgoblinstatespeaking(self):
+        global goblinidlevariant, goblinstate
+        if goblinstate == "speaking":
+            spritechange.config(image=speaking1)
+            window.after(1000, lambda: spritechange.config(image=speaking2))
+            window.after(2000, self.setgoblinstatespeaking)
+        else:
+            return
+    
+    def setgoblinstatelistening(self):
+        global goblinidlevariant, goblinstate
+        if goblinstate == "listening":
+            spritechange.config(image=listening1)
+            window.after(1000, self.setgoblinstatelistening)
+        else:
+            return
+
+
+class Gamemanager:
+    def __init__(self, event=None):
+        global goblinidlevariant, goblinstate
+
+    def play_intro(self, event=None):
+        Audio().play_audio_introduction()
+
+    def play_riddle(self, event=None):
+        Spritemanager().setgoblinstatespeaking()
+        Audio().play_audio_riddle()
+        Spritemanager().setgoblinstateidle()
+
+    def record_audio_analysis(self, event=None):
+        Spritemanager().setgoblinstatelistening()
+        Audio().record_audio()
+        Spritemanager().setgoblinstateidle()
+        Transcription().transcribe_both()
+
 def interfaceboot():
     #tk interface for user input hopefully (needs more learning) (probs use it as a debug tool later for now its the main window)
-    audiocall= Audio()
-    transcribecall = transcription()
-
+    Gamelogic = Gamemanager()
+    Sprite = Spritemanager()
     window.title("Goblin game")
     label = tk.Label(text="Hello please speak the passphrase")
     label.pack()
@@ -226,7 +265,7 @@ def interfaceboot():
         height=5,
         bg="white",
         fg="black",
-        command=audiocall.play_audio_introduction
+        command=Gamelogic.play_intro
     )
     button.pack()
     button = tk.Button(
@@ -235,7 +274,7 @@ def interfaceboot():
         height=5,
         bg="white",
         fg="black",
-        command=audiocall.play_audio_riddle
+        command=Gamelogic.play_riddle
     )
     button.pack()
 
@@ -245,19 +284,19 @@ def interfaceboot():
         height=5,
         bg="white",
         fg="black",
-        command=audiocall.record_audio
+        command=Gamelogic.record_audio_analysis
     )
     button.pack()
 
-    button = tk.Button(
-        text="Check the answer!!",
-        width=25,
-        height=5,
-        bg="white",
-        fg="black",
-        command=transcribecall.transcribe_both
-        ) # cant have two functions in one button so i made a new one that combines the two
-    button.pack()
+    # button = tk.Button(
+    #     text="Check the answer!!",
+    #     width=25,
+    #     height=5,
+    #     bg="white",
+    #     fg="black",
+    #     command=transcribecall.transcribe_both
+    #     ) # cant have two functions in one button so i made a new one that combines the two
+    # button.pack()
     '''
     label0 = tk.Label(window, text="Transcription success:")
     label0.pack()
@@ -276,8 +315,9 @@ def interfaceboot():
     # label6.pack()
     # label7 = tk.Label(window, textvariable=Wptranscription)
     # label7.pack()
-    spriteupdater()
+    
     # spriteupdatechecker()
+    Sprite.setgoblinstateidle()
     window.mainloop()
 
 
@@ -303,6 +343,30 @@ interfaceboot()
 
 
 
+# def Sprite_initializer():
+# #     #while True: #do i need this in here now that i update it everyonce in a while, i dont think so atleast removing it for now.
+#     global goblinstate, goblinidlevariant
+#     if goblinstate == "start":
+#         if goblinidlevariant % 2 == 0:
+#             spritechange.config(image=idle1)
+#             window.after(1000, lambda: spritechange.config(image=idle2))
+#             window.after(2000, Sprite_initializer)
+#         else:
+#             spritechange.config(image=idle3)
+#             window.after(1000, lambda: spritechange.config(image=idle4))
+#             window.after(2000, lambda: spritechange.config(image=idle5))
+#             window.after(2500, lambda: spritechange.config(image=idle4))
+#             window.after(3500, Sprite_initializer)
+#         goblinidlevariant += 1
+#     else:
+#         return
+#     elif goblinstate == "speaking":
+#         spritechange.config(image=speaking1)
+#         window.after(1000, lambda: spritechange.config(image=speaking2))
+#         window.after(2000, oldspriteupdater)
+#     elif goblinstate == "listening":
+#         spritechange.config(image=listening1)
+#         window.after(1000, oldspriteupdater)
 
 
 
