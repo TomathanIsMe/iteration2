@@ -1,6 +1,7 @@
 import speech_recognition as sr 
 import pyaudio
 import wave
+import time
 import tkinter as tk #replace with  (QT or pygame or something else looks better)
 from pathlib import Path
 from allosaurus.app import read_recognizer
@@ -21,8 +22,22 @@ Wtranscription.set("")
 Wptranscription= tk.StringVar()
 Wptranscription.set("")
 
-#Game and goblin state variables
+#move this to a class bro .....
+#goblin state variables and the tk shit to display it
+idle1 = tk.PhotoImage(file="C:/Users/tomcr/Documents/projects/iteration2/idle1.png")
+idle2 = tk.PhotoImage(file="C:/Users/tomcr/Documents/projects/iteration2/idle2.png")
+idle3 = tk.PhotoImage(file="C:/Users/tomcr/Documents/projects/iteration2/idle3.png")
+idle4 = tk.PhotoImage(file="C:/Users/tomcr/Documents/projects/iteration2/idle4.png")
+idle5 = tk.PhotoImage(file="C:/Users/tomcr/Documents/projects/iteration2/idle5.png")
+speaking1 = tk.PhotoImage(file="C:/Users/tomcr/Documents/projects/iteration2/speaking1.png")
+speaking2 = tk.PhotoImage(file="C:/Users/tomcr/Documents/projects/iteration2/speaking2.png")
+listening1 = tk.PhotoImage(file="C:/Users/tomcr/Documents/projects/iteration2/listening1.png")
+
 goblinstate = "idle"
+spritechange = tk.Label(window, image=idle1)
+spritechange.pack()
+goblinidlevariant = 1
+
 
 
 
@@ -36,7 +51,6 @@ class Audio:
 
     def play_audio_introduction(self):
         global goblinstate
-        goblinstate = "speaking"
         wf = wave.open("introduction.wav", 'rb')
 
         audio = pyaudio.PyAudio()
@@ -50,11 +64,11 @@ class Audio:
             data = wf.readframes(self.chunk)
         stream.close()
         audio.terminate()
-        goblinstate = "idle"
         return
     def play_audio_riddle(self):
         global goblinstate
         goblinstate = "speaking"
+        
         wf = wave.open("riddle.wav", 'rb')
 
         audio = pyaudio.PyAudio()
@@ -68,12 +82,16 @@ class Audio:
             data = wf.readframes(self.chunk)
         stream.close()
         audio.terminate()
-        goblinstate = "idle"
+        
+        #riddle play time
+        window.after(16000, lambda: setattr(goblinstate, "idle"))
         return
 
     def record_audio(self):
         global goblinstate
         goblinstate = "listening"
+
+
         # Define audio parameters as variables (its needed for pyaudio to function)
         WAVE_OUTPUT_FILENAME = "recording.wav" 
 
@@ -106,7 +124,9 @@ class Audio:
         waveFile.setframerate(self.RATE)
         waveFile.writeframes(b''.join(frames))
         waveFile.close()
-        goblinstate = "idle"
+
+        
+        window.after(16000, lambda: setattr(goblinstate, "idle"))
         return
 
 class transcription:
@@ -170,6 +190,28 @@ class transcription:
         #self.transcription()
         self.Photranscription()
         return
+def spriteupdater():
+    #while True: #do i need this in here now that i update it everyonce in a while, i dont think so atleast removing it for now.
+    global goblinstate, goblinidlevariant
+    if goblinstate == "idle":
+        if goblinidlevariant % 2 == 0:
+            spritechange.config(image=idle1)
+            window.after(1000, lambda: spritechange.config(image=idle2))
+            window.after(2000, spriteupdater)
+        else:
+            spritechange.config(image=idle3)
+            window.after(1000, lambda: spritechange.config(image=idle4))
+            window.after(2000, lambda: spritechange.config(image=idle5))
+            window.after(2500, lambda: spritechange.config(image=idle4))
+            window.after(3500, spriteupdater)
+        goblinidlevariant += 1
+    elif goblinstate == "speaking":
+        spritechange.config(image=speaking1)
+        window.after(1000, lambda: spritechange.config(image=speaking2))
+        window.after(2000, spriteupdater)
+    elif goblinstate == "listening":
+        spritechange.config(image=listening1)
+        window.after(1000, spriteupdater)
 def interfaceboot():
     #tk interface for user input hopefully (needs more learning) (probs use it as a debug tool later for now its the main window)
     audiocall= Audio()
@@ -234,19 +276,11 @@ def interfaceboot():
     # label6.pack()
     # label7 = tk.Label(window, textvariable=Wptranscription)
     # label7.pack()
-
+    spriteupdater()
+    # spriteupdatechecker()
     window.mainloop()
 
-'''
-def goblinstatemanager()
-    if goblinstate == "idle":
-        #set animation to idle
-    elif goblinstate == "speaking":
-        #set animation to speaking
-    elif goblinstate == "listening":
-        #set animation to listening
-    elif
-'''
+
 
 interfaceboot()
 
