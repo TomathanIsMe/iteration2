@@ -2,7 +2,7 @@ import speech_recognition as sr
 import pyaudio
 import wave
 import time
-import tkinter as tk #replace with  (QT or pygame or something else looks better)
+import tkinter as tk #replace with  (QT or pygame or something else looks better) (not doin allat)
 from pathlib import Path
 from allosaurus.app import read_recognizer
 
